@@ -11,9 +11,12 @@ struct vec8 {
   int8_t z;
 };
 
-struct vec8 *vec8_rotate(/*@returned@*/ struct vec8 *ctx, rad8_t angle);
-struct vec8 *vec8_translate(/*@returned@*/ struct vec8 *ctx, const struct vec8 *t);
-// struct vec8 *vec8_scale(/*@returned@*/ struct vec8 *ctx, int8_t scale);
-// struct vec8 *vec8_project(/*@returned@*/ struct vec8 *ctx);
+struct vec8 *vec8_rotate_x(/*@returned@*/ struct vec8 *ctx, rad8_t angle);
+struct vec8 *vec8_rotate_y(/*@returned@*/ struct vec8 *ctx, rad8_t angle);
+struct vec8 *vec8_rotate_z(/*@returned@*/ struct vec8 *ctx, rad8_t angle);
+
+struct vec8 *vec8_translate_x(/*@returned@*/ struct vec8 *ctx, int8_t x);
+struct vec8 *vec8_translate_y(/*@returned@*/ struct vec8 *ctx, int8_t y);
+struct vec8 *vec8_translate_z(/*@returned@*/ struct vec8 *ctx, int8_t z);
 
 #endif
