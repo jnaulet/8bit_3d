@@ -88,10 +88,12 @@ struct vec8 *vec8_rotate_x(struct vec8 *dst, const struct vec8 *src, rad8_t angl
 {
     int8_t cos = COS8(angle);
     int8_t sin = SIN8(angle);
+    int8_t yp = QSMUL8(src->y, cos) - QSMUL8(src->z, sin);
+    int8_t zp = QSMUL8(src->y, sin) + QSMUL8(src->z, cos);
 
     dst->x = src->x;
-    dst->y = QSMUL8(src->y, cos) - QSMUL8(src->z, sin);
-    dst->z = QSMUL8(src->y, sin) + QSMUL8(src->z, cos);
+    dst->y = yp;
+    dst->z = zp;
 
     return dst;
 }
@@ -100,10 +102,12 @@ struct vec8 *vec8_rotate_y(struct vec8 *dst, const struct vec8 *src, rad8_t angl
 {
     int8_t cos = COS8(angle);
     int8_t sin = SIN8(angle);
+    int8_t xp = QSMUL8(src->x, cos) - QSMUL8(src->z, sin);
+    int8_t zp = QSMUL8(src->x, sin) + QSMUL8(src->z, cos);
 
-    dst->x = QSMUL8(src->x, cos) - QSMUL8(src->z, sin);
+    dst->x = xp;
     dst->y = src->y;
-    dst->z = QSMUL8(src->x, sin) + QSMUL8(src->z, cos);
+    dst->z = zp;
 
     return dst;
 }
@@ -112,9 +116,11 @@ struct vec8 *vec8_rotate_z(struct vec8 *dst, const struct vec8 *src, rad8_t angl
 {
     int8_t cos = COS8(angle);
     int8_t sin = SIN8(angle);
+    int8_t xp = QSMUL8(src->x, cos) - QSMUL8(src->y, sin);
+    int8_t yp = QSMUL8(src->x, sin) + QSMUL8(src->y, cos);
 
-    dst->x = QSMUL8(src->x, cos) - QSMUL8(src->y, sin);
-    dst->y = QSMUL8(src->x, sin) + QSMUL8(src->y, cos);
+    dst->x = xp;
+    dst->y = yp;
     dst->z = src->z;
 
     return dst;
@@ -130,16 +136,9 @@ struct vec8 *vec8_rotate_xyz(struct vec8 *dst, const struct vec8 *src, rad8_t ax
     int8_t cosz = COS8(az);
     int8_t sinz = SIN8(az);
 
-    /* dst->x = QSMUL8(src->x, cosz) - QSMUL8(src->y, sinz); */
-    /* dst->y = QSMUL8(src->x, sinz) + QSMUL8(src->y, cosz); */
-    /* dst->x = QSMUL8(src->x, cosy) - QSMUL8(src->z, siny); */
-    /* dst->z = QSMUL8(src->x, siny) + QSMUL8(src->z, cosy); */
-    /* dst->y = QSMUL8(src->y, cosx) - QSMUL8(src->z, sinx); */
-    /* dst->z = QSMUL8(src->y, sinx) + QSMUL8(src->z, cosx); */
-
     int8_t xp = QSMUL8(src->x, cosz) - QSMUL8(src->y, sinz);
     int8_t yp = QSMUL8(src->x, sinz) + QSMUL8(src->y, cosz);
-    int8_t zp = QSMUL8(xp, siny) + QSMUL8(src->z, cosy);
+    int8_t zp = QSMUL8(src->x, siny) + QSMUL8(src->z, cosy);
 
     dst->x = QSMUL8(xp, cosy) - QSMUL8(zp, siny);
     dst->y = QSMUL8(yp, cosx) - QSMUL8(zp, sinx);

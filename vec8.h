@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-typedef int8_t rad8_t;
+typedef uint8_t rad8_t;
 
 struct vec8 {
     int8_t x;
