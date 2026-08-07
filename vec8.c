@@ -84,53 +84,71 @@ static const int8_t div8[64] = {
 
 /* *INDENT-ON* */
 
-struct vec8 *vec8_rotate_x(struct vec8 *ctx, rad8_t angle)
+/* struct vec8 *vec8_rotate_xy(struct vec8 *dst, struct vec8 *src, rad8_t ax, rad8_t ay) */
+/* { */
+/*     int8_t cosax = COS8(ax); */
+/*     int8_t sinax = SIN8(ax); */
+/*     int8_t cosay = COS8(ay); */
+/*     int8_t sinay = SIN8(ay); */
+
+/*     dst->x = QSMUL8(src->x, cosax) - QSMUL8(src->y, sinax); */
+/*     dst->y = QSMUL8(src->x, sinax) + QSMUL8(src->y, cosax); */
+/*     dst->z = QSMUL8(src->z, sinay) - QSMUL8(src->y, cosay); */
+/*     dst->y = QSMUL8(src->z, cosay) + QSMUL8(src->y, sinay); */
+
+/*     return ctx; */
+/* } */
+
+struct vec8 *vec8_rotate_x(struct vec8 *dst, const struct vec8 *src, rad8_t angle)
 {
-    int8_t cosa = COS8(angle);
-    int8_t sina = SIN8(angle);
+    int8_t cos = COS8(angle);
+    int8_t sin = SIN8(angle);
 
-    ctx->x = QSMUL8(ctx->x, cosa) - QSMUL8(ctx->y, sina);
-    ctx->y = QSMUL8(ctx->x, sina) + QSMUL8(ctx->y, cosa);
+    dst->x = src->x;
+    dst->y = QSMUL8(src->y, cos) - QSMUL8(src->z, sin);
+    dst->z = QSMUL8(src->y, sin) + QSMUL8(src->z, cos);
 
-    return ctx;
+    return dst;
 }
 
-struct vec8 *vec8_rotate_y(struct vec8 *ctx, rad8_t angle)
+struct vec8 *vec8_rotate_y(struct vec8 *dst, const struct vec8 *src, rad8_t angle)
 {
-    int8_t cosa = COS8(angle);
-    int8_t sina = SIN8(angle);
+    int8_t cos = COS8(angle);
+    int8_t sin = SIN8(angle);
 
-    ctx->z = QSMUL8(ctx->z, sina) - QSMUL8(ctx->y, cosa);
-    ctx->y = QSMUL8(ctx->z, cosa) + QSMUL8(ctx->y, sina);
+    ctx->x = QSMUL8(src->x, cos) - QSMUL8(src->z, sin);
+    dst->y = src->y;
+    ctx->z = QSMUL8(src->x, sin) + QSMUL8(src->z, cos);
 
-    return ctx;
+    return dst;
 }
 
-struct vec8 *vec8_rotate_z(struct vec8 *ctx, rad8_t angle)
+struct vec8 *vec8_rotate_z(struct vec8 *dst, const struct vec8 *src, rad8_t angle)
 {
-    int8_t cosa = COS8(angle);
-    int8_t sina = SIN8(angle);
+    int8_t cos = COS8(angle);
+    int8_t sin = SIN8(angle);
 
-    // ctx->z = QSMUL8(ctx->z, cosa) + QSMUL8(ctx->x, sina);
-    // ctx->x = QSMUL8(ctx->x, cosa) - QSMUL8(ctx->z, sina);
+    dst->x = QSMUL8(src->x, cos) - QSMUL8(src->y, sin);
+    dst->y = QSMUL8(src->x, sin) + QSMUL8(src->y, cos);
+    dst->z = src->z;
 
-    return ctx;
+    return dst;
 }
 
-struct vec8 *vec8_translate_x(struct vec8 *ctx, int8_t x)
+struct vec8 *vec8_translate_x(struct vec8 *dst, const struct vec8 *src, int8_t x)
 {
-    ctx->x += x;
-    return ctx;
+    dst->x = src->x + x;
+    return dst;
 }
 
-struct vec8 *vec8_translate_y(struct vec8 *ctx, int8_t y)
+struct vec8 *vec8_translate_y(struct vec8 *dst, const struct vec8 *src, int8_t y)
 {
-    ctx->y += y;
-    return ctx;
+    dst->y = src->y + y;
+    return dst;
 }
 
-struct vec8 *vec8_translate_z(struct vec8 *ctx, int8_t z)
+struct vec8 *vec8_translate_z(struct vec8 *dst, const struct vec8 *src, int8_t z)
 {
-    ctx->z += z;
-    return ctx;
+    dst->z = src->z + z;
+    return dst;
 }
