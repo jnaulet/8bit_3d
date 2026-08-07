@@ -1,5 +1,6 @@
 #include "vec8.h"
 
+/* *INDENT-OFF* */
 static const int8_t sin8[256] = {
       0,   2,   3,   5,   6,   8,   9,  11,  12,  14,  15,  17,  18,  20,  21,  23, 
      24,  26,  27,  28,  30,  31,  32,  34,  35,  36,  38,  39,  40,  41,  42,  43, 
@@ -81,53 +82,55 @@ static const int8_t div8[64] = {
 #define QSMUL8(a, b) (qsmul8[ABS8(a + b)] - qsmul8[ABS8(a - b)])
 #define DIV8(a, b)   QSMUL8(a, div8[(b)])
 
+/* *INDENT-ON* */
+
 struct vec8 *vec8_rotate_x(struct vec8 *ctx, rad8_t angle)
 {
-  int8_t cosa = COS8(angle);
-  int8_t sina = SIN8(angle);
-  
-  ctx->x = QSMUL8(ctx->x, cosa) - QSMUL8(ctx->y, sina);
-  ctx->y = QSMUL8(ctx->x, sina) + QSMUL8(ctx->y, cosa);
+    int8_t cosa = COS8(angle);
+    int8_t sina = SIN8(angle);
 
-  return ctx;
+    ctx->x = QSMUL8(ctx->x, cosa) - QSMUL8(ctx->y, sina);
+    ctx->y = QSMUL8(ctx->x, sina) + QSMUL8(ctx->y, cosa);
+
+    return ctx;
 }
 
 struct vec8 *vec8_rotate_y(struct vec8 *ctx, rad8_t angle)
 {
-  int8_t cosa = COS8(angle);
-  int8_t sina = SIN8(angle);
-  
-  ctx->z = QSMUL8(ctx->z, sina) - QSMUL8(ctx->y, cosa);
-  ctx->y = QSMUL8(ctx->z, cosa) + QSMUL8(ctx->y, sina);
+    int8_t cosa = COS8(angle);
+    int8_t sina = SIN8(angle);
 
-  return ctx;
+    ctx->z = QSMUL8(ctx->z, sina) - QSMUL8(ctx->y, cosa);
+    ctx->y = QSMUL8(ctx->z, cosa) + QSMUL8(ctx->y, sina);
+
+    return ctx;
 }
 
 struct vec8 *vec8_rotate_z(struct vec8 *ctx, rad8_t angle)
 {
-  int8_t cosa = COS8(angle);
-  int8_t sina = SIN8(angle);
+    int8_t cosa = COS8(angle);
+    int8_t sina = SIN8(angle);
 
-  // ctx->z = QSMUL8(ctx->z, cosa) + QSMUL8(ctx->x, sina);
-  // ctx->x = QSMUL8(ctx->x, cosa) - QSMUL8(ctx->z, sina);
+    // ctx->z = QSMUL8(ctx->z, cosa) + QSMUL8(ctx->x, sina);
+    // ctx->x = QSMUL8(ctx->x, cosa) - QSMUL8(ctx->z, sina);
 
-  return ctx;
+    return ctx;
 }
 
 struct vec8 *vec8_translate_x(struct vec8 *ctx, int8_t x)
 {
-  ctx->x += x;
-  return ctx;
+    ctx->x += x;
+    return ctx;
 }
 
 struct vec8 *vec8_translate_y(struct vec8 *ctx, int8_t y)
 {
-  ctx->y += y;
-  return ctx;
+    ctx->y += y;
+    return ctx;
 }
 
 struct vec8 *vec8_translate_z(struct vec8 *ctx, int8_t z)
 {
-  ctx->z += z;
-  return ctx;
+    ctx->z += z;
+    return ctx;
 }
