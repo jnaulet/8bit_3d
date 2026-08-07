@@ -84,21 +84,6 @@ static const int8_t div8[64] = {
 
 /* *INDENT-ON* */
 
-/* struct vec8 *vec8_rotate_xy(struct vec8 *dst, struct vec8 *src, rad8_t ax, rad8_t ay) */
-/* { */
-/*     int8_t cosax = COS8(ax); */
-/*     int8_t sinax = SIN8(ax); */
-/*     int8_t cosay = COS8(ay); */
-/*     int8_t sinay = SIN8(ay); */
-
-/*     dst->x = QSMUL8(src->x, cosax) - QSMUL8(src->y, sinax); */
-/*     dst->y = QSMUL8(src->x, sinax) + QSMUL8(src->y, cosax); */
-/*     dst->z = QSMUL8(src->z, sinay) - QSMUL8(src->y, cosay); */
-/*     dst->y = QSMUL8(src->z, cosay) + QSMUL8(src->y, sinay); */
-
-/*     return ctx; */
-/* } */
-
 struct vec8 *vec8_rotate_x(struct vec8 *dst, const struct vec8 *src, rad8_t angle)
 {
     int8_t cos = COS8(angle);
@@ -116,9 +101,9 @@ struct vec8 *vec8_rotate_y(struct vec8 *dst, const struct vec8 *src, rad8_t angl
     int8_t cos = COS8(angle);
     int8_t sin = SIN8(angle);
 
-    ctx->x = QSMUL8(src->x, cos) - QSMUL8(src->z, sin);
+    dst->x = QSMUL8(src->x, cos) - QSMUL8(src->z, sin);
     dst->y = src->y;
-    ctx->z = QSMUL8(src->x, sin) + QSMUL8(src->z, cos);
+    dst->z = QSMUL8(src->x, sin) + QSMUL8(src->z, cos);
 
     return dst;
 }
@@ -133,6 +118,26 @@ struct vec8 *vec8_rotate_z(struct vec8 *dst, const struct vec8 *src, rad8_t angl
     dst->z = src->z;
 
     return dst;
+}
+
+struct vec8 *vec8_rotate_xyz(struct vec8 *dst, const struct vec8 *src, rad8_t ax, rad8_t ay,
+                             rad8_t az)
+{
+    int8_t cosx = COS8(ax);
+    int8_t sinx = SIN8(ax);
+    int8_t cosy = COS8(ay);
+    int8_t siny = SIN8(ay);
+    int8_t cosz = COS8(az);
+    int8_t sinz = SIN8(az);
+
+    dst->x = QSMUL8(src->x, cosz) - QSMUL8(src->y, sinz);
+    dst->y = QSMUL8(src->x, sinz) + QSMUL8(src->y, cosz);
+    dst->x = QSMUL8(src->x, cosy) - QSMUL8(src->z, siny);
+    dst->z = QSMUL8(src->x, siny) + QSMUL8(src->z, cosy);
+    dst->y = QSMUL8(src->y, cosx) - QSMUL8(src->z, sinx);
+    dst->z = QSMUL8(src->y, sinx) + QSMUL8(src->z, cosx);
+
+    return ctx;
 }
 
 struct vec8 *vec8_translate_x(struct vec8 *dst, const struct vec8 *src, int8_t x)
