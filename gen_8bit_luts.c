@@ -76,8 +76,9 @@ int main(void)
   // =BITAND(BITRSHIFT(FLOOR(POWER(B17; 2)/4); 7); 127)
   printf("static const int8_t qsmul8[%d] = {", QSMUL_COUNT);
   for(int m = 0; m < QSMUL_COUNT; m++){
+    int n = m + 1;
     if(!(m % 16)) printf("\n    ");
-    printf("%3u, ", 0xffu & (((m * m) / 4) >> 6));
+    printf("%3u, ", 0xffu & (((n * n) / 4) >> 6));
   }
   printf("\n");
   printf("};");

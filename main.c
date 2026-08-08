@@ -34,7 +34,7 @@ int main(void)
                 struct vec8 v;
                 (void) vec8_rotate_xy(&v, &vertex[i], a, a);
                 // (void) vec8_project(&v, &v);
-		/* crude projection */
+                /* crude projection */
                 fprintf(stderr, "\x1b[%d;%df" "#", (v.y + 64) / 2, (v.x + 64));
             }
 
