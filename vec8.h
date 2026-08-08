@@ -22,4 +22,6 @@ struct vec8 *vec8_translate_x(/*@returned@*/ struct vec8 *dst, const struct vec8
 struct vec8 *vec8_translate_y(/*@returned@*/ struct vec8 *dst, const struct vec8 *src, int8_t y);
 struct vec8 *vec8_translate_z(/*@returned@*/ struct vec8 *dst, const struct vec8 *src, int8_t z);
 
+struct vec8 *vec8_project(/*@returned@*/ struct vec8 *dst, const struct vec8 *src);
+
 #endif

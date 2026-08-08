@@ -37,7 +37,8 @@ int main(void)
                 // (void) vec8_rotate_y(&v, &v, a);
                 // (void) vec8_rotate_z(&v, &v, a);
                 // fprintf(stderr, "x: %d y: %d z: %d\n", v.x, v.y, v.z);
-                fprintf(stderr, "\x1b[%d;%df" "#", (v.y + 64) / 3, (v.x + 64));
+                // (void) vec8_project(&v, &v);
+                fprintf(stderr, "\x1b[%d;%df" "#", (v.y + 64) / 2, (v.x + 64));
             }
 
             /* render */
