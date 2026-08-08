@@ -126,6 +126,24 @@ struct vec8 *vec8_rotate_z(struct vec8 *dst, const struct vec8 *src, rad8_t angl
     return dst;
 }
 
+struct vec8 *vec8_rotate_xy(struct vec8 *dst, const struct vec8 *src, rad8_t ax, rad8_t ay)
+{
+    int8_t cosx = COS8(ax);
+    int8_t sinx = SIN8(ax);
+    int8_t cosy = COS8(ay);
+    int8_t siny = SIN8(ay);
+
+    int8_t xp = QSMUL8(src->x, cosy) - QSMUL8(src->z, siny);
+    int8_t zp = QSMUL8(src->x, siny) + QSMUL8(src->z, cosy);
+    int8_t yp = QSMUL8(src->y, cosx) - QSMUL8(zp, sinx);
+
+    dst->x = xp;
+    dst->y = yp;
+    dst->z = QSMUL8(src->y, sinx) + QSMUL8(zp, cosx);
+
+    return dst;
+}
+
 struct vec8 *vec8_rotate_xyz(struct vec8 *dst, const struct vec8 *src, rad8_t ax, rad8_t ay,
                              rad8_t az)
 {

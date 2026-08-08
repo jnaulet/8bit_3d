@@ -33,14 +33,15 @@ int main(void)
             for (int i = VERTEX_COUNT; i-- != 0;) {
                 struct vec8 v;
                 //(void) vec8_rotate_xyz(&v, &vertex[i], a, a, 0);
-                (void) vec8_rotate_y(&v, &vertex[i], a);
-                (void) vec8_rotate_x(&v, &v, a);
+                (void) vec8_rotate_xy(&v, &vertex[i], a, a);
+                // (void) vec8_rotate_y(&v, &v, a);
+                // (void) vec8_rotate_z(&v, &v, a);
                 // fprintf(stderr, "x: %d y: %d z: %d\n", v.x, v.y, v.z);
-		fprintf(stderr, "\x1b[%d;%df" "#", (v.y + 64) / 3, v.x + 64);
-	    }
-	    
-	    /* render */
-	    // for (int i = VERTEX_COUNT; i-- != 0;)
+                fprintf(stderr, "\x1b[%d;%df" "#", (v.y + 64) / 3, (v.x + 64));
+            }
+
+            /* render */
+            // for (int i = VERTEX_COUNT; i-- != 0;)
             //    fprintf(stderr, "\x1b[%u;%uf" "#", v.y + 48, v.x + 32);
 
             /* x fps */
