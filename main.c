@@ -32,7 +32,8 @@ int main(void)
             /* for each vertice */
             for (int i = VERTEX_COUNT; i-- != 0;) {
                 struct vec8 v;
-                (void) vec8_rotate_xy(&v, &vertex[i], a, a);
+                (void) vec8_rotate_xyz(&v, &vertex[i], a, a, a);
+                // (void) vec8_rotate_xy(&v, &vertex[i], a, a);
                 // (void) vec8_project(&v, &v);
                 /* crude projection */
                 fprintf(stderr, "\x1b[%d;%df" "#", (v.y + 64) / 2, (v.x + 64));
