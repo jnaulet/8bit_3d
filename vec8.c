@@ -69,18 +69,10 @@ static const int8_t qsmul8[128] = {
      49,  50,  51,  52,  53,  54,  55,  56,  57,  58,  59,  60,  61,  62,  63,  64, 
 };
 
-static const int8_t div8[64] = {
-     64,  32,  21,  16,  12,  10,   9,   8,   7,   6,   5,   5,   4,   4,   4,   4, 
-      3,   3,   3,   3,   3,   2,   2,   2,   2,   2,   2,   2,   2,   2,   2,   2, 
-      1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1, 
-      1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1, 
-};
-
 #define SIN8(x)      (sin8[(x)])
 #define COS8(x)      (cos8[(x)])
 #define ABS8(x)      (abs8[(uint8_t)(x)])
 #define QSMUL8(a, b) (qsmul8[ABS8(a + b)] - qsmul8[ABS8(a - b)])
-#define DIV8(a, b)   QSMUL8(a, div8[(b)])
 
 /* *INDENT-ON* */
 
@@ -165,20 +157,10 @@ struct vec8 *vec8_rotate_xyz(struct vec8 *dst, const struct vec8 *src, rad8_t ax
     return dst;
 }
 
-struct vec8 *vec8_translate_x(struct vec8 *dst, const struct vec8 *src, int8_t x)
+struct vec8 *vec8_translate(struct vec8 *dst, const struct vec8 *src, ub8_t x, ub8_t y, ub8_t z)
 {
     dst->x = src->x + x;
-    return dst;
-}
-
-struct vec8 *vec8_translate_y(struct vec8 *dst, const struct vec8 *src, int8_t y)
-{
     dst->y = src->y + y;
-    return dst;
-}
-
-struct vec8 *vec8_translate_z(struct vec8 *dst, const struct vec8 *src, int8_t z)
-{
     dst->z = src->z + z;
     return dst;
 }
@@ -188,15 +170,6 @@ struct vec8 *vec8_scale(struct vec8 *dst, const struct vec8 *src, ub8_t scale)
     dst->x = QSMUL8(src->x, scale);
     dst->y = QSMUL8(src->y, scale);
     dst->z = QSMUL8(src->z, scale);
-    return dst;
-}
-
-struct vec8 *vec8_project(struct vec8 *dst, const struct vec8 *src)
-{
-    dst->x = DIV8(src->x, src->z);
-    dst->y = DIV8(src->y, src->z);
-    dst->z = 0;
-
     return dst;
 }
 
@@ -221,9 +194,6 @@ int main(void)
     printf("QSMUL8(%d, %d): %d\n", 63, 8, QSMUL8(63, 8));
     printf("QSMUL8(%d, %d): %d\n", 32, 32, QSMUL8(32, 32));
     printf("QSMUL8(%d, %d): %d\n", 16, 16, QSMUL8(16, 16));
-
-    printf("DIV8(63, 63): %d\n", DIV8(63, 63));
-    printf("DIV8(63, 32): %d\n", DIV8(63, 32));
 
     return 0;
 }
