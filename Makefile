@@ -18,6 +18,12 @@ demo: vec8.o main.o
 indent:
 	indent -kr -l100 -nut $(SRC)
 
+splint:
+	splint +posixlib $(SRC)
+
+cppcheck:
+	cppcheck $(SRC)
+
 clean:
 	rm -f $(X86_PROGS)
 

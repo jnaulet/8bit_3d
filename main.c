@@ -24,34 +24,34 @@ int main(void)
     };
     /* *INDENT-ON* */
 
+    rad8_t a = 0, b = 0, c = 0;
     for (;;) {
-        for (rad8_t a = 0, b = 0, c = 0;;) {
-            /* clear screen */
-            fprintf(stderr, HOME CLS);
-            fprintf(stderr, "a: %u\n", (unsigned) a);
-            /* for each vertice */
-            for (int i = VERTEX_COUNT; i-- != 0;) {
-                struct vec8 v;
-                (void) vec8_rotate_xyz(&v, &vertex[i], a, a, a);
-                // (void) vec8_rotate_xy(&v, &vertex[i], a, a);
-                // (void) vec8_project(&v, &v);
-                /* crude projection */
-                fprintf(stderr, "\x1b[%d;%df" "#", (v.y + 64) / 2, (v.x + 64));
-            }
-
-            /* render */
-            // for (int i = VERTEX_COUNT; i-- != 0;)
-            //    fprintf(stderr, "\x1b[%u;%uf" "#", v.y + 48, v.x + 32);
-
-            /* next move */
-            a++;
-            b += (a & 1);
-            c += (b & 1);
-
-            /* x fps */
-            (void) usleep((useconds_t) 50000);
+        /* clear screen */
+        fprintf(stderr, HOME CLS);
+        fprintf(stderr, "a: %u\n", (unsigned) a);
+        /* for each vertice */
+        int i;
+        for (i = VERTEX_COUNT; i-- != 0;) {
+            struct vec8 v = { 0, 0, 0 };
+            (void) vec8_rotate_xyz(&v, &vertex[i], a, a, a);
+            (void) vec8_scale(&v, &v, (ub8_t) 31);
+            // (void) vec8_project(&v, &v);
+            /* crude projection */
+            fprintf(stderr, "\x1b[%d;%df" "#", ((int) v.y + 64) / 2, ((int) v.x + 64));
         }
+
+        /* render */
+        // for (int i = VERTEX_COUNT; i-- != 0;)
+        //    fprintf(stderr, "\x1b[%u;%uf" "#", v.y + 48, v.x + 32);
+
+        /* next move */
+        a++;
+        b += (a & 1);
+        c += (b & 1);
+
+        /* x fps */
+        (void) usleep((useconds_t) 50000);
     }
 
-    return 0;
+    /*@notreached@ */ return 0;
 }
