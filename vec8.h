@@ -3,12 +3,13 @@
 
 #include <stdint.h>
 
-typedef uint8_t rad8_t;
+typedef int8_t ub8_t;   /* 8bit unit ball: -63 -> -1.0, 63 -> 1.0 */
+typedef uint8_t rad8_t; /* 8bit radian: 0 ->  0, 255 -> 2PI */
 
 struct vec8 {
-    int8_t x;
-    int8_t y;
-    int8_t z;
+    ub8_t x;
+    ub8_t y;
+    ub8_t z;
 };
 
 struct vec8 *vec8_rotate_x(/*@returned@*/ struct vec8 *dst, const struct vec8 *src, rad8_t angle);
@@ -22,6 +23,7 @@ struct vec8 *vec8_translate_x(/*@returned@*/ struct vec8 *dst, const struct vec8
 struct vec8 *vec8_translate_y(/*@returned@*/ struct vec8 *dst, const struct vec8 *src, int8_t y);
 struct vec8 *vec8_translate_z(/*@returned@*/ struct vec8 *dst, const struct vec8 *src, int8_t z);
 
+struct vec8 *vec8_scale(/*@returned@*/ struct vec8 *dst, const struct vec8 *src, ub8_t scale);
 struct vec8 *vec8_project(/*@returned@*/ struct vec8 *dst, const struct vec8 *src);
 
 #endif

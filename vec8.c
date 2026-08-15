@@ -183,6 +183,14 @@ struct vec8 *vec8_translate_z(struct vec8 *dst, const struct vec8 *src, int8_t z
     return dst;
 }
 
+struct vec8 *vec8_scale(struct vec8 *dst, const struct vec8 *src, ub8_t scale)
+{
+    dst->x = QSMUL8(src->x, scale);
+    dst->y = QSMUL8(src->y, scale);
+    dst->z = QSMUL8(src->z, scale);
+    return dst;
+}
+
 struct vec8 *vec8_project(struct vec8 *dst, const struct vec8 *src)
 {
     dst->x = DIV8(src->x, src->z);
