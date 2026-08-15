@@ -25,7 +25,7 @@ int main(void)
     /* *INDENT-ON* */
 
     for (;;) {
-        for (rad8_t a = 0;; a++) {
+        for (rad8_t a = 0, b = 0, c = 0;;) {
             /* clear screen */
             fprintf(stderr, HOME CLS);
             fprintf(stderr, "a: %u\n", (unsigned) a);
@@ -42,6 +42,11 @@ int main(void)
             /* render */
             // for (int i = VERTEX_COUNT; i-- != 0;)
             //    fprintf(stderr, "\x1b[%u;%uf" "#", v.y + 48, v.x + 32);
+
+            /* next move */
+            a++;
+            b += (a & 1);
+            c += (b & 1);
 
             /* x fps */
             (void) usleep((useconds_t) 50000);
