@@ -173,6 +173,24 @@ struct vec8 *vec8_scale(struct vec8 *dst, const struct vec8 *src, ub8_t scale)
     return dst;
 }
 
+struct vec8 *vec8_project(struct vec8 *dst, const struct vec8 *src, ub8_t d)
+{
+  /* try to find the most realistic ratio */
+  // ub8_t ratio = QSMUL8(src->z - z, (ub8_t)20);
+  // ub8_t ratio = (src->z - z) >> 1;
+  // ub8_t ratio = ((ub8_t)63 + src->z) >> 1;
+
+  uint8_t dist = (uint8_t)((ub8_t)63 + src->z + d);
+  float r1 = (float)dist / (float)d;
+  ub8_t ratio = (ub8_t)(63.0 / r1);
+  
+  dst->z = src->z;
+  dst->x = QSMUL8(src->x, ratio);
+  dst->y = QSMUL8(src->y, ratio);
+
+  return dst;
+}
+
 #ifdef UNIT_TEST
 
 #include <stdio.h>

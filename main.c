@@ -9,6 +9,11 @@
 #define HOME "\x1b[H"
 #define CLS  "\x1b[2J"
 
+#define BUFSIZE 128*48
+
+static char buf[BUFSIZE];
+static ub8_t zbuf[BUFSIZE];
+
 int main(void)
 {
     /* *INDENT-OFF* */
@@ -33,9 +38,9 @@ int main(void)
         int i;
         for (i = VERTEX_COUNT; i-- != 0;) {
             struct vec8 v = { 0, 0, 0 };
-            (void) vec8_rotate_xyz(&v, &vertex[i], a, a, a);
-            (void) vec8_scale(&v, &v, (ub8_t) 31);
-            // (void) vec8_project(&v, &v);
+            (void) vec8_rotate_xyz(&v, &vertex[i], a, b, c);
+            // (void) vec8_scale(&v, &v, (ub8_t) 31);
+            (void) vec8_project(&v, &v, 8);
             /* crude projection */
             fprintf(stderr, "\x1b[%d;%df" "#", ((int) v.y + 64) / 2, ((int) v.x + 64));
         }
@@ -45,10 +50,12 @@ int main(void)
         //    fprintf(stderr, "\x1b[%u;%uf" "#", v.y + 48, v.x + 32);
 
         /* next move */
-        a++;
+	b++;
+#if 0
+	a++;
         b += (a & 1);
         c += (b & 1);
-
+#endif
         /* x fps */
         (void) usleep((useconds_t) 50000);
     }
